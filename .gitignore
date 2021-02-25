@@ -1,0 +1,58 @@
+*.DS_Store
+
+# Consider removing already checked-in checkpoints?
+.ipynb_checkpoints
+
+#active-learning-changing-environments/etc/
+
+# remove .pyc files
+*.pyc
+
+# remove .p pickle files
+*.p
+
+ # remove np.save files
+*.npy
+
+# Items below taken from github's tex gitignore
+
+## Core latex/pdflatex auxiliary files:
+*.aux
+*.lof
+*.log
+*.lot
+*.fls
+*.out
+*.toc
+*.fmt
+*.fot
+*.cb
+*.cb2
+
+## Intermediate documents:
+*.dvi
+*.nav
+*.snm
+*-converted-to.*
+# these rules might exclude image files for figures etc.
+
+## Bibliography auxiliary files (bibtex/biblatex/biber):
+*.bbl
+*.bcf
+*.blg
+*-blx.aux
+*-blx.bib
+*.brf
+*.run.xml
+
+## Build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
+
+# endfloat
+*.ttt
+*.fff
