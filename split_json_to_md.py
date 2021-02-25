@@ -1,6 +1,17 @@
 import json
 import string
 
+def increment_title(title,titles):
+    i = 1
+    if title in titles:
+        if title+'-'+str(i) in titles:
+            i+=1
+        else:
+            title=title+'-'+str(i)
+    else:
+        title=title
+    return title   
+
 with open('annotations.json', 'r') as j:
      contents = json.loads(j.read())
 
@@ -15,6 +26,9 @@ for i in range(len(contents['annotations'])):
         title = anno['document']['title'][0]
         title = title.translate(str.maketrans('', '', string.punctuation)).lower()
 
+    title = increment_title(title,all_titles)
+    all_titles.append(title)  
+     
     context_href = anno['links']['incontext']
     tags = anno['tags']
     try:
