@@ -3,7 +3,7 @@ import string
 
 def increment_title(title,titles):
     i = 1
-    if title in titles:
+    while title in titles:
         if title+'-'+str(i) in titles:
             i+=1
         else:
@@ -12,8 +12,11 @@ def increment_title(title,titles):
         title=title
     return title   
 
+
 with open('annotations.json', 'r') as j:
      contents = json.loads(j.read())
+
+all_titles = []
 
 for i in range(len(contents['annotations'])):
 
@@ -21,14 +24,16 @@ for i in range(len(contents['annotations'])):
 
     created = anno['created']
     if len(anno['document'])==0:
-        title = "no title"
+        title = created[:10]+"-"+"no-title"
     else:
         title = anno['document']['title'][0]
         title = title.translate(str.maketrans('', '', string.punctuation)).lower()
-
+        title = (created[:10]+"-"+title).replace(" ", "-")
+        
     title = increment_title(title,all_titles)
     all_titles.append(title)  
      
+
     context_href = anno['links']['incontext']
     tags = anno['tags']
     try:
@@ -39,7 +44,7 @@ for i in range(len(contents['annotations'])):
     
     note = anno['text']
 
-    with open("out/"+created[:10]+"-"+title.replace(" ", "-")+'.md','w') as out:
+    with open("../../out/"+title+'.md','w') as out:
         date = 'date: '+ created[:10]+"\n"
         tags = "tags: #"+' #'.join(tags) + "hypothesis_note"+"\n"
         url = "url: [here]("+context_href+")"+"\n\n"
