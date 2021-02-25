@@ -26,3 +26,12 @@ create an out directory for the markdown notes.
 ```mmkdir out```
 
 Then run the ```split_json_to_md.py``` script.
+
+
+----
+
+## to do:
+
+- avoid duplicates when exporting highlights
+- pinboard notes to markdown
+ 
