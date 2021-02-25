@@ -32,6 +32,7 @@ Then run the ```split_json_to_md.py``` script.
 
 ## to do:
 
-- avoid duplicates when exporting highlights
+- avoid duplicates when updating highlight imports 
+- bash script
 - pinboard notes to markdown
  
