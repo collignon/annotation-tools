@@ -25,7 +25,7 @@ create an out directory for the markdown notes.
 
 ```mmkdir out```
 
-create a .env file and add the date you want to pull annotations from. 
+create a ```.env``` file and add the date you want to pull annotations from. 
 This environmment variable will be updated every time the function is called.
 
 ```hypothesis_last_pull="2021-02-25" ```
