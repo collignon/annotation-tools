@@ -25,6 +25,12 @@ create an out directory for the markdown notes.
 
 ```mmkdir out```
 
+create a .env file and add the date you want to pull annotations from. 
+This environmment variable will be updated every time the function is called.
+
+```hypothesis_last_pull="2021-02-25" ```
+
+
 Then run the ```split_json_to_md.py``` script.
 
 
@@ -32,7 +38,6 @@ Then run the ```split_json_to_md.py``` script.
 
 ## to do:
 
-- avoid duplicates when updating highlight imports 
 - bash script
 - pinboard notes to markdown
  
