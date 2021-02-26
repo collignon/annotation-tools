@@ -17,9 +17,12 @@ username = "USERNAME"
 token = "TOKEN"
 ```
 
+## Getting annotations
 Grab all of your annotations with:
 
 ``` python -m hypexport.export --secrets secrets.py > annotations.json ```
+
+## Creating markdown files
 
 create an out directory for the markdown notes. 
 
