@@ -1,22 +1,14 @@
 import json
 import string
 
-def increment_title(title,titles):
-    i = 1
-    while title in titles:
-        if title+'-'+str(i) in titles:
-            i+=1
-        else:
-            title=title+'-'+str(i)
-    else:
-        title=title
-    return title   
+import numpy as np
+import pandas as pd
 
 
 with open('annotations.json', 'r') as j:
      contents = json.loads(j.read())
 
-all_titles = []
+all_notes =[]
 
 for i in range(len(contents['annotations'])):
 
@@ -29,12 +21,9 @@ for i in range(len(contents['annotations'])):
         title = anno['document']['title'][0]
         title = title.translate(str.maketrans('', '', string.punctuation)).lower()
         title = (created[:10]+"-"+title).replace(" ", "-")
-        
-    title = increment_title(title,all_titles)
-    all_titles.append(title)  
-     
 
     context_href = anno['links']['incontext']
+    uri = anno['uri']
     tags = anno['tags']
     try:
         highlights = [i['exact'] for i in anno['target'][0]['selector'] if 'exact' in i.keys()][0]
@@ -43,11 +32,50 @@ for i in range(len(contents['annotations'])):
         print(anno['target'])
     
     note = anno['text']
+    
+    n ={}
+    
+    date = created[:10]
+    tags = "#"+' #'.join(tags)
+    url = context_href
+    title = title
+    
+    n['title'] = title
+    n['tags'] = tags
+    n['date'] = date
+    n['url'] = url
+    n['highlights'] = "```" +highlights +"``` \n" +note 
+    n['uri'] = uri
+    
+    all_notes.append(n)
+    
+df = pd.DataFrame(all_notes).groupby(["title","date","uri"])['highlights'].apply(list).reset_index(name='highlights')
+df['tags'] = pd.DataFrame(all_notes).groupby(["title","date"])['tags'].apply(lambda x: list(np.unique(x))).reset_index(name='tags')['tags'].values
+df['url'] = pd.DataFrame(all_notes).groupby(["title","date"])['url'].apply(lambda x: list(np.unique(x))).reset_index(name='url')['url'].values
 
-    with open("../../out/"+title+'.md','w') as out:
-        date = 'date: '+ created[:10]+"\n"
-        tags = "tags: #"+' #'.join(tags) + "hypothesis_note"+"\n"
-        url = "url: [here]("+context_href+")"+"\n\n"
-        title = '# '+title+"\n"
+for i,note_file in df.iterrows():
 
-        out.writelines([date,tags,url,title,"### highlight:\n",highlights,"\n\n### note\n",note])
+    title = note_file['title']
+    tags = note_file['tags']
+    date = note_file['date']
+    uri = note_file['uri']
+
+    with open("out/"+title+'.md','w') as out:
+        title_line= "# "+title[11:]+"\n\n"
+        tag_line = "tags: "+ " ".join([i for i in " ".join(tags).split(" ") if len(i)>1])+"\n"
+        uri_line = "uri: ["+title[11:]+"]("+uri+")\n"
+        date_line = "date: "+ date+"\n"
+
+        high_line = ""
+        for index,high in enumerate(note_file['highlights']):
+            high_line += high +"\n"
+            high_line += "[hypothesis ref]("+note_file['url'][0]+")\n"
+
+        out.writelines([title_line,
+                        tag_line,
+                        uri_line,
+                        date_line,
+                        "### highlight:\n",high_line])
+        
+        
+    
