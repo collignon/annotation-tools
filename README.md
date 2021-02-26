@@ -2,6 +2,8 @@
 
 ## exporting hypothesis annotations to obsidian (markdown files)
 
+connecting [hypothesis](https://hypothes.is) and [obsidian.md](obsidian.md).
+
 Inspired by the tutorial from [Shawn Graham](https://electricarchaeology.ca/2021/02/14/from-hypothesis-annotation-to-obsidian-note/).
 
 First, get ‘Hypexport’ from https://github.com/karlicoss/hypexport . 
