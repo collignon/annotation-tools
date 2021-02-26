@@ -10,6 +10,7 @@ with open('annotations.json', 'r') as j:
 
 all_notes =[]
 
+# extract annotation info from each hypothesis document
 for i in range(len(contents['annotations'])):
 
     anno = contents['annotations'][i]
@@ -48,11 +49,14 @@ for i in range(len(contents['annotations'])):
     n['uri'] = uri
     
     all_notes.append(n)
-    
+
+
+# create dataframe and unify notes with same title / date pairs
 df = pd.DataFrame(all_notes).groupby(["title","date","uri"])['highlights'].apply(list).reset_index(name='highlights')
 df['tags'] = pd.DataFrame(all_notes).groupby(["title","date"])['tags'].apply(lambda x: list(np.unique(x))).reset_index(name='tags')['tags'].values
 df['url'] = pd.DataFrame(all_notes).groupby(["title","date"])['url'].apply(lambda x: list(np.unique(x))).reset_index(name='url')['url'].values
 
+# create markdown files for each document with highlights and notes
 for i,note_file in df.iterrows():
 
     title = note_file['title']
