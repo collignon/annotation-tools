@@ -73,7 +73,7 @@ for i,note_file in df.iterrows():
         high_line = ""
         for index,high in enumerate(note_file['highlights']):
             high_line += high +"\n"
-            high_line += "[hypothesis ref]("+note_file['url'][0]+")\n"
+            high_line += "[hypothesis ref]("+note_file['url'][0]+")\n\n ----\n"
 
         out.writelines([title_line,
                         tag_line,
