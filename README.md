@@ -17,12 +17,12 @@ username = "USERNAME"
 token = "TOKEN"
 ```
 
-## Getting annotations
+### Getting annotations
 Grab all of your annotations with:
 
 ``` python -m hypexport.export --secrets secrets.py > annotations.json ```
 
-## Creating markdown files
+### Creating markdown files
 
 create an out directory for the markdown notes. 
 
@@ -36,11 +36,22 @@ This environmment variable will be updated every time the function is called.
 
 Then run the ```split_json_to_md.py``` script.
 
+---
+
+## Exporting pinboard notes
+
+add pinboard API key to ```secrets.py``` file
+
+``` pinboard_key = 'username:key-number' ```
+
+then run:
+
+``` python get_pinboard_notes.py ```
 
 ----
 
 ## to do:
 
+- add time filtering to pinboard pull
 - bash script
-- pinboard notes to markdown
  
