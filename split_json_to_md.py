@@ -14,7 +14,6 @@ with open('annotations.json', 'r') as j:
      contents = json.loads(j.read())
 
 
-
 # pull last import date from .env file
 hypothesis_last_pull = os.getenv('hypothesis_last_pull')
 
