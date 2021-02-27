@@ -1,12 +1,32 @@
+import os
+from dotenv import load_dotenv, find_dotenv, set_key
+load_dotenv() 
+
 import json
 import string
 
 import numpy as np
 import pandas as pd
 
+from dateutil.parser import parse
 
 with open('annotations.json', 'r') as j:
      contents = json.loads(j.read())
+
+
+# pull last import date from .env file
+hypothesis_last_pull = os.getenv('hypothesis_last_pull')
+
+print("Last date pulled: ", hypothesis_last_pull)
+
+# if None, set to 1990 
+if hypothesis_last_pull is None:
+    hypothesis_last_pull = "1990-01-01"
+
+# filter annotations based on last pulled date
+contents['annotations'] = [i for i in contents['annotations'] if parse(i['updated'][:10])>=parse(hypothesis_last_pull)]
+
+
 
 all_notes =[]
 
@@ -15,7 +35,7 @@ for i in range(len(contents['annotations'])):
 
     anno = contents['annotations'][i]
 
-    created = anno['created']
+    created = anno['updated']
     if len(anno['document'])==0:
         title = created[:10]+"-"+"no-title"
     else:
@@ -81,5 +101,10 @@ for i,note_file in df.iterrows():
                         date_line,
                         "### highlight:\n",high_line])
         
-        
-    
+# update last pull in .env file
+last_pull = max(df['date'])
+print(last_pull)
+
+dotenv_file = find_dotenv()
+set_key(dotenv_file, "hypothesis_last_pull", last_pull)
+
