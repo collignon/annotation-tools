@@ -59,6 +59,5 @@ then run:
 
 ## to do:
 
-- add time filtering to pinboard pull
 - bash script
  
