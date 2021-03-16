@@ -25,7 +25,12 @@ create an out directory for the markdown notes.
 
 ```mmkdir out```
 
-Then run the ```split_json_to_md.py``` script.
+Then run ```python split_json_to_md.py``` script.
+
+---
+
+for pinboard bookmarks, run: ```python get_pinboard_notes.py```
+
 
 
 ----
@@ -34,5 +39,4 @@ Then run the ```split_json_to_md.py``` script.
 
 - avoid duplicates when updating highlight imports 
 - bash script
-- pinboard notes to markdown
  

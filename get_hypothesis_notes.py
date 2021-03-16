@@ -26,6 +26,7 @@ if hypothesis_last_pull is None:
 # filter annotations based on last pulled date
 contents['annotations'] = [i for i in contents['annotations'] if parse(i['updated'][:10])>=parse(hypothesis_last_pull)]
 
+print("new notes: ", len(len(contents['annotations'])))
 
 
 all_notes =[]
@@ -65,7 +66,7 @@ for i in range(len(contents['annotations'])):
     n['tags'] = tags
     n['date'] = date
     n['url'] = url
-    n['highlights'] = "```" +highlights +"``` \n" +note 
+    n['highlights'] = "> " +highlights +" s\n" +note 
     n['uri'] = uri
     
     all_notes.append(n)
