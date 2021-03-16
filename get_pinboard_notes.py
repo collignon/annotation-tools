@@ -12,9 +12,6 @@ import pinboard
 
 import secrets as se
 
-
-
-
 pk = se.pinboard_key
 pb = pinboard.Pinboard(pk)
 
@@ -41,6 +38,9 @@ last_pull = pd.DataFrame(out).time.max()[:10]
 dotenv_file = find_dotenv()
 set_key(dotenv_file, "pinboard_last_pull", last_pull)
 
+# bundle new notes to unique folder
+os.mkdir("out/pinboard/"+last_pull)
+
 for pb_note in out:
 
     href = pb_note['href']
@@ -55,7 +55,7 @@ for pb_note in out:
         tags += ' to-read' 
     tags = " ".join(["#"+i for i in tags.split(" ")]) 
 
-    with open("out/"+filename+'.md','w') as file:
+    with open("out/pinboard/"+last_pull+"/"+filename+'.md','w') as file:
             title_line= "# "+title+"\n\n"
             tag_line = "tags: "+ tags +"\n\n"
             uri_line = "uri: ["+title+"]("+href+")\n"

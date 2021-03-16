@@ -17,7 +17,7 @@ with open('annotations.json', 'r') as j:
 # pull last import date from .env file
 hypothesis_last_pull = os.getenv('hypothesis_last_pull')
 
-print("Last date pulled: ", hypothesis_last_pull)
+print("hypothesis - Last date pulled: ", hypothesis_last_pull)
 
 # if None, set to 1990 
 if hypothesis_last_pull is None:
@@ -26,7 +26,7 @@ if hypothesis_last_pull is None:
 # filter annotations based on last pulled date
 contents['annotations'] = [i for i in contents['annotations'] if parse(i['updated'][:10])>=parse(hypothesis_last_pull)]
 
-print("new notes: ", len(len(contents['annotations'])))
+print("new notes: ", len(contents['annotations']))
 
 
 all_notes =[]
@@ -71,11 +71,17 @@ for i in range(len(contents['annotations'])):
     
     all_notes.append(n)
 
-
 # create dataframe and unify notes with same title / date pairs
 df = pd.DataFrame(all_notes).groupby(["title","date","uri"])['highlights'].apply(list).reset_index(name='highlights')
 df['tags'] = pd.DataFrame(all_notes).groupby(["title","date"])['tags'].apply(lambda x: list(np.unique(x))).reset_index(name='tags')['tags'].values
 df['url'] = pd.DataFrame(all_notes).groupby(["title","date"])['url'].apply(lambda x: list(np.unique(x))).reset_index(name='url')['url'].values
+
+# update last pull in .env file
+last_pull = max(df['date'])
+print(last_pull)
+
+# bundle new notes to unique folder
+os.mkdir("out/hypothesis/"+last_pull)
 
 # create markdown files for each document with highlights and notes
 for i,note_file in df.iterrows():
@@ -85,7 +91,7 @@ for i,note_file in df.iterrows():
     date = note_file['date']
     uri = note_file['uri']
 
-    with open("out/"+title+'.md','w') as out:
+    with open("out/hypothesis/"+last_pull+"/"+title+'.md','w') as out:
         title_line= "# "+title[11:]+"\n\n"
         tag_line = "tags: "+ " ".join([i for i in " ".join(tags).split(" ") if len(i)>1])+"\n"
         uri_line = "uri: ["+title[11:]+"]("+uri+")\n"
@@ -102,10 +108,6 @@ for i,note_file in df.iterrows():
                         date_line,
                         "### highlight:\n",high_line])
         
-# update last pull in .env file
-last_pull = max(df['date'])
-print(last_pull)
-
 dotenv_file = find_dotenv()
 set_key(dotenv_file, "hypothesis_last_pull", last_pull)
 

@@ -36,8 +36,6 @@ This environmment variable will be updated every time the function is called.
 
 Then run ```python get_hypothesis_notes.py``` script.
 
-
-
 ---
 
 ## Exporting pinboard notes
@@ -56,8 +54,10 @@ then run:
 ``` python get_pinboard_notes.py ```
 
 ----
+to do:
 
-## to do:
+- add #to-read tag to "read later" pinboard bookmarks
+- think about Maps of Content 
+- tag hierarchies 
+- tag disambiguation / suggestions / + bundles
 
-- bash script
- 
