@@ -17,26 +17,48 @@ username = "USERNAME"
 token = "TOKEN"
 ```
 
+### Getting annotations
 Grab all of your annotations with:
 
 ``` python -m hypexport.export --secrets secrets.py > annotations.json ```
+
+### Creating markdown files
 
 create an out directory for the markdown notes. 
 
 ```mmkdir out```
 
-Then run ```python split_json_to_md.py``` script.
+create a ```.env``` file and add the date you want to pull annotations from. 
+This environmment variable will be updated every time the function is called.
+
+```hypothesis_last_pull="2021-02-25" ```
+
+
+Then run ```python get_hypothesis_notes.py``` script.
+
+
 
 ---
 
-for pinboard bookmarks, run: ```python get_pinboard_notes.py```
+## Exporting pinboard notes
+
+add pinboard API key to ```secrets.py``` file
+
+``` pinboard_key = 'username:key-number' ```
 
 
+add last pull variable to the ```.env``` file, e.g.:
+
+```pinboard_last_pull="2021-02-25" ```
+
+then run:
+
+``` python get_pinboard_notes.py ```
 
 ----
 
 ## to do:
 
-- avoid duplicates when updating highlight imports 
+- add time filtering to pinboard pull
 - bash script
  
