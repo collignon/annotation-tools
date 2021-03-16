@@ -60,4 +60,5 @@ to do:
 - think about Maps of Content 
 - tag hierarchies 
 - tag disambiguation / suggestions / + bundles
-
+- think about [[links]] between pages (beyond tags)
+- look into images
