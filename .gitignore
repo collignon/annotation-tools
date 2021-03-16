@@ -1,3 +1,10 @@
+
+.env
+annotations.json
+getnotes.sh
+secrets.py
+src/
+
 *.DS_Store
 
 # Consider removing already checked-in checkpoints?
