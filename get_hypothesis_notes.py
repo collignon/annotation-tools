@@ -10,7 +10,9 @@ import pandas as pd
 
 from dateutil.parser import parse
 
-with open('annotations.json', 'r') as j:
+ROOT = os.path.dirname(os.path.abspath(__file__))
+
+with open('annotations.json', 'r', encoding='utf-8') as j:
      contents = json.loads(j.read())
 
 
@@ -81,7 +83,8 @@ last_pull = max(df['date'])
 print(last_pull)
 
 # bundle new notes to unique folder
-os.mkdir("out/hypothesis/"+last_pull)
+base_path = os.path.join(ROOT, "out", "hypothesis", last_pull)
+os.makedirs(base_path, exist_ok=True)
 
 # create markdown files for each document with highlights and notes
 for i,note_file in df.iterrows():
@@ -91,7 +94,7 @@ for i,note_file in df.iterrows():
     date = note_file['date']
     uri = note_file['uri']
 
-    with open("out/hypothesis/"+last_pull+"/"+title+'.md','w') as out:
+    with open(os.path.join(base_path, title+'.md'), 'w', encoding='utf-8') as out:
         title_line= "# "+title[11:]+"\n\n"
         tag_line = "tags: "+ " ".join([i for i in " ".join(tags).split(" ") if len(i)>1])+"\n"
         uri_line = "uri: ["+title[11:]+"]("+uri+")\n"
